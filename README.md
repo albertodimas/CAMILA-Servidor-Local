@@ -34,3 +34,30 @@ Accede a [http://localhost:8000](http://localhost:8000) para comprobar que el se
 ```
 CAMILA Servidor Local Activo ✅
 ```
+
+5. **Descargar el modelo LLaMA-3.2-3b cuantizado**
+
+Descarga el modelo `gguf` de LLaMA y ubícalo en la carpeta `models/`. Define la
+variable de entorno `LLAMA_MODEL_PATH` con la ruta al archivo, por ejemplo:
+
+```bash
+export LLAMA_MODEL_PATH=./models/llama-3.2-3b-q4.gguf
+```
+
+6. **Probar el endpoint de IA**
+
+Con el servidor en marcha envía una petición POST a `/ia`:
+
+```bash
+curl -X POST http://localhost:8000/ia \
+     -H 'Content-Type: application/json' \
+     -d '{"pregunta": "¿Hola?"}'
+```
+
+La respuesta incluirá una clave `respuesta` generada por el modelo.
+
+7. **Ejecutar las pruebas automáticas**
+
+```bash
+pytest
+```
