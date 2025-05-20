@@ -1,3 +1,5 @@
 nginx
 starlette
 uvicorn
+llama-cpp-python
+pytest
