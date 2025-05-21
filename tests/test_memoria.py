@@ -1,6 +1,6 @@
 import types
-import memoria
-from memoria import guardar_info, recuperar_info
+from src import memoria
+from src.memoria import guardar_info, recuperar_info
 
 class DummyCollection:
     def __init__(self):
