@@ -1,11 +1,13 @@
 import random
 from typing import List
+import numpy as np
 
 class FinRLRLAgent:
     """Minimal Q-learning agent without external dependencies."""
 
     def __init__(self, n_states: int = 10, n_actions: int = 2, alpha: float = 0.1, gamma: float = 0.9, epsilon: float = 0.1):
-        self.q_table: List[List[float]] = [[0.0 for _ in range(n_actions)] for _ in range(n_states)]
+        # Q-table stored as minimal ndarray to expose `.shape` attribute
+        self.q_table = np.array([[0.0 for _ in range(n_actions)] for _ in range(n_states)])
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon = epsilon
@@ -22,3 +24,8 @@ class FinRLRLAgent:
         best_next = max(self.q_table[next_state])
         td = reward + self.gamma * best_next - self.q_table[state][action]
         self.q_table[state][action] += self.alpha * td
+
+    # Added for clarity: expose decision method used by the main application
+    def decide(self, state: int) -> int:
+        """Return an action for the given state using current policy."""
+        return self.select_action(state)
