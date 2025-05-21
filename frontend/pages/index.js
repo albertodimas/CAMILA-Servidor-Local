@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { CopilotProvider } from '@copilotkit/react-core';
+import Layout from '../components/Layout';
+import AskSection from '../components/AskSection';
+import MemorySection from '../components/MemorySection';
 
 export default function Home() {
   const [question, setQuestion] = useState('');
@@ -34,36 +37,21 @@ export default function Home() {
 
   return (
     <CopilotProvider>
-      <main style={{ padding: '2rem' }}>
-        <h1>Interfaz CAMILA</h1>
-
-        <section>
-          <h2>Consultar IA</h2>
-          <input
-            aria-label="pregunta"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-          />
-          <button onClick={ask}>Enviar</button>
-          <div>Respuesta: {answer}</div>
-        </section>
-
-        <section>
-          <h2>Memoria Persistente</h2>
-          <input
-            aria-label="memoria"
-            value={memory}
-            onChange={(e) => setMemory(e.target.value)}
-          />
-          <button onClick={saveMemory}>Guardar</button>
-          <button onClick={getMemory}>Recuperar</button>
-          <ul>
-            {memData.map((text, i) => (
-              <li key={i}>{text}</li>
-            ))}
-          </ul>
-        </section>
-      </main>
+      <Layout>
+        <AskSection
+          question={question}
+          onQuestionChange={setQuestion}
+          onSend={ask}
+          answer={answer}
+        />
+        <MemorySection
+          memory={memory}
+          onMemoryChange={setMemory}
+          onSave={saveMemory}
+          onRetrieve={getMemory}
+          data={memData}
+        />
+      </Layout>
     </CopilotProvider>
   );
 }
