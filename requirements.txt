@@ -3,3 +3,5 @@ starlette
 uvicorn
 llama-cpp-python
 pytest
+chromadb
+langchain

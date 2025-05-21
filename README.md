@@ -56,8 +56,43 @@ curl -X POST http://localhost:8000/ia \
 
 La respuesta incluirá una clave `respuesta` generada por el modelo.
 
-7. **Ejecutar las pruebas automáticas**
+7. **Usar la memoria persistente**
+
+Para guardar información contextual envía una petición POST a `/memoria/guardar`:
+
+```bash
+curl -X POST http://localhost:8000/memoria/guardar \
+     -H 'Content-Type: application/json' \
+     -d '{"contenido": "mi texto"}'
+```
+
+Recupera todo lo almacenado con una petición GET a `/memoria/recuperar`:
+
+```bash
+curl http://localhost:8000/memoria/recuperar
+```
+
+La respuesta contendrá una lista `memoria` con los textos guardados.
+8. **Ejecutar las pruebas automáticas**
 
 ```bash
 pytest
+```
+
+9. **Ejecutar la interfaz visual**
+
+La interfaz React basada en Next.js se encuentra en `frontend` y utiliza CopilotKit para facilitar la interacción.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Esto abrirá la web en [http://localhost:3000](http://localhost:3000). Desde ella podrás consultar el endpoint `/ia` y gestionar la memoria con `/memoria/guardar` y `/memoria/recuperar`.
+
+Para ejecutar las pruebas de la interfaz:
+
+```bash
+npm test
 ```
