@@ -1,5 +1,5 @@
 import os
-import main
+from src import main
 from starlette.testclient import TestClient
 
 class DummyLlama:

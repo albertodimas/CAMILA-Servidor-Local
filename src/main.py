@@ -3,7 +3,7 @@ from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse, JSONResponse
 from llama_cpp import Llama
 import uvicorn
-from memoria import guardar_info, recuperar_info
+from .memoria import guardar_info, recuperar_info
 
 app = Starlette()
 
