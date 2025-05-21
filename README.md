@@ -94,3 +94,37 @@ Para ejecutar las pruebas de la interfaz:
 ```bash
 npm test
 ```
+
+## Estructura avanzada del frontend
+
+El directorio `frontend` contiene una aplicación basada en React, Next.js y CopilotKit.
+La estructura inicial está organizada para facilitar la extensión:
+
+```
+frontend/
+  components/        # Componentes reutilizables de la interfaz
+    AskSection.js
+    MemorySection.js
+    Layout.js
+  pages/             # Páginas Next.js
+    index.js
+  __tests__/         # Pruebas con Jest y Testing Library
+    index.test.js
+  jest.config.js     # Configuración de Jest
+  package.json       # Scripts y dependencias
+```
+
+### Scripts disponibles
+
+Desde `frontend` se puede iniciar el servidor de desarrollo con:
+
+```bash
+npm run dev
+```
+
+Y ejecutar las pruebas automáticas con:
+
+```bash
+npm test
+```
+
