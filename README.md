@@ -56,7 +56,24 @@ curl -X POST http://localhost:8000/ia \
 
 La respuesta incluirá una clave `respuesta` generada por el modelo.
 
-7. **Ejecutar las pruebas automáticas**
+7. **Usar la memoria persistente**
+
+Para guardar información contextual envía una petición POST a `/memoria/guardar`:
+
+```bash
+curl -X POST http://localhost:8000/memoria/guardar \
+     -H 'Content-Type: application/json' \
+     -d '{"contenido": "mi texto"}'
+```
+
+Recupera todo lo almacenado con una petición GET a `/memoria/recuperar`:
+
+```bash
+curl http://localhost:8000/memoria/recuperar
+```
+
+La respuesta contendrá una lista `memoria` con los textos guardados.
+8. **Ejecutar las pruebas automáticas**
 
 ```bash
 pytest
