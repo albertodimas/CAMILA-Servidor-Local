@@ -13,3 +13,14 @@ def test_ia_endpoint(monkeypatch):
         response = client.post("/ia", json={"pregunta": "Hola?"})
         assert response.status_code == 200
         assert response.json()["respuesta"] == "respuesta de prueba"
+
+
+def test_status_endpoint():
+    from starlette.testclient import TestClient
+    from src.main import app
+
+    client = TestClient(app)
+    response = client.get("/status")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "CAMILA operativo ✅"}
