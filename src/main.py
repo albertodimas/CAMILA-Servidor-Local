@@ -45,12 +45,17 @@ async def memoria_recuperar(request):
     return JSONResponse({'memoria': textos})
 
 
+async def status(request):
+    return JSONResponse({"status": "CAMILA operativo ✅"})
+
 routes = [
     Route('/', home, methods=["GET"]),
     Route('/ia', ia, methods=["POST"]),
     Route('/memoria/guardar', memoria_guardar, methods=["POST"]),
     Route('/memoria/recuperar', memoria_recuperar, methods=["GET"]),
 ]
+
+routes.append(Route('/status', status, methods=["GET"]))
 
 app = Starlette(routes=routes, lifespan=lifespan)
 
