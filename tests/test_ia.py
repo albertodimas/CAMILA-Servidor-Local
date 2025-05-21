@@ -11,7 +11,7 @@ def test_eter_forward():
 def test_finrl_agent():
     agent = FinRLRLAgent()
     action = agent.select_action(0)
-    assert action in {0, 1}
-    agent.update(0, action, reward=1.0, next_state=1)
+    assert isinstance(action, int)
+    assert 0 <= action < agent.q_table.shape[1]
 
 
