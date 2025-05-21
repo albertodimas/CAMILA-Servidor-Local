@@ -1,27 +1,30 @@
-import os
+from contextlib import asynccontextmanager
 from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse, JSONResponse
 from llama_cpp import Llama
 import uvicorn
 from .memoria import guardar_info, recuperar_info
 
-app = Starlette()
-
 llm = None
 
-@app.on_event("startup")
-async def load_model():
-    """Carga el modelo LLaMA al iniciar la aplicación."""
+
+@asynccontextmanager
+async def lifespan(app: Starlette):
+    """Carga el modelo LLaMA durante el ciclo de vida de la aplicación."""
     global llm
     # Ruta fija al modelo cuantizado LLaMA-3.2-3B Instruct
     llm = Llama(model_path="models/Llama-3.2-3B-Instruct-Q4_K_M.gguf")
+    yield
 
-@app.route('/')
+
+app = Starlette(lifespan=lifespan)
+
+@app.get('/')
 async def read_root(request):
     return PlainTextResponse('CAMILA Servidor Local Activo ✅')
 
 
-@app.route('/ia', methods=['POST'])
+@app.post('/ia')
 async def ia(request):
     data = await request.json()
     pregunta = data.get('pregunta')
@@ -32,7 +35,7 @@ async def ia(request):
     return JSONResponse({'respuesta': respuesta})
 
 
-@app.route('/memoria/guardar', methods=['POST'])
+@app.post('/memoria/guardar')
 async def memoria_guardar(request):
     data = await request.json()
     contenido = data.get('contenido')
@@ -42,7 +45,7 @@ async def memoria_guardar(request):
     return JSONResponse({'status': 'guardado'})
 
 
-@app.route('/memoria/recuperar', methods=['GET'])
+@app.get('/memoria/recuperar')
 async def memoria_recuperar(request):
     docs = recuperar_info()
     textos = [doc.page_content for doc in docs]
