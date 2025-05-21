@@ -17,6 +17,10 @@ class FinRLRLAgent:
         q_values = self.q_table[state]
         return q_values.index(max(q_values))
 
+    def decide(self, state: int) -> int:
+        """Compatibility wrapper returning the selected action."""
+        return self.select_action(state)
+
     def update(self, state: int, action: int, reward: float, next_state: int) -> None:
         """Single-step Q-learning update."""
         best_next = max(self.q_table[next_state])

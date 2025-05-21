@@ -3,23 +3,29 @@ from src import main
 from starlette.testclient import TestClient
 
 class DummyLlama:
-    def create_completion(self, prompt, max_tokens=128):
+    def __init__(self):
+        self.last_prompt = None
+
+    def create_completion(self, prompt, max_tokens=256):
+        self.last_prompt = prompt
         return {"choices": [{"text": "respuesta de prueba"}]}
 
 class DummyETER:
     def encode(self, text):
         return [0] * 16
-    def forward(self, x):
-        return [0, 0]
+
+import numpy as np
 
 class DummyFinRL:
     def __init__(self):
-        self.q_table = [[0, 0]] * 10
-    def select_action(self, state):
+        self.q_table = np.zeros((10, 2))
+
+    def decide(self, state):
         return 0
 
 def test_ia_endpoint(monkeypatch):
-    monkeypatch.setattr(main, "Llama", lambda model_path: DummyLlama())
+    llama = DummyLlama()
+    monkeypatch.setattr(main, "Llama", lambda model_path: llama)
     monkeypatch.setenv("LLAMA_MODEL_PATH", "dummy")
     monkeypatch.setattr(main, "eter_network", DummyETER())
     monkeypatch.setattr(main, "finrl_agent", DummyFinRL())
@@ -27,6 +33,7 @@ def test_ia_endpoint(monkeypatch):
         response = client.post("/ia", json={"pregunta": "Hola?"})
         assert response.status_code == 200
         assert response.json()["respuesta"] == "respuesta de prueba"
+        assert "Decisión adaptativa" in llama.last_prompt
 
 
 def test_status_endpoint():

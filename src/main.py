@@ -29,20 +29,20 @@ async def ia(request):
     pregunta = data.get('pregunta')
     if not pregunta:
         return JSONResponse({'error': 'pregunta no proporcionada'}, status_code=400)
-    # Procesamiento de la pregunta con la red ETER
-    # Se genera un vector de características para la capa de RL
-    features = eter_network.encode(pregunta)
-    _ = eter_network.forward(features)
+    # Extraer características usando ETER
+    features = eter_network.encode(pregunta)  # vector numérico
 
-    # Decisión adaptativa mediante la capa FinRL
-    state = int(features.sum()) % finrl_agent.q_table.shape[0]
-    accion = finrl_agent.select_action(state)
+    # Decisión adaptativa mediante agente FinRL
+    import numpy as np  # uso de numpy para el cálculo
+    state = int(np.array(features).sum()) % finrl_agent.q_table.shape[0]  # estado discreto
+    decision = finrl_agent.decide(state)  # acción propuesta por el agente
 
-    if accion == 0:
-        result = llm.create_completion(prompt=pregunta, max_tokens=128)
-        respuesta = result['choices'][0]['text'].strip()
-    else:
-        respuesta = "Respuesta adaptativa"
+    # Construir prompt enriquecido según decisión FinRL
+    prompt_final = f"{pregunta}\n\nDecisión adaptativa: {decision}"  # prompt final
+
+    # Finalmente, respuesta enriquecida mediante LLaMA-3
+    result = llm.create_completion(prompt=prompt_final, max_tokens=256)  # generación con LLaMA
+    respuesta = result['choices'][0]['text'].strip()  # extracción de texto
 
     return JSONResponse({'respuesta': respuesta})
 
