@@ -35,11 +35,12 @@ Accede a [http://localhost:8000](http://localhost:8000) para comprobar que el se
 CAMILA Servidor Local Activo ✅
 ```
 
-5. **Descargar el modelo LLaMA-3.2-3b cuantizado**
+5. **Descargar el modelo LLaMA-3.2-3B Instruct cuantizado**
 
-Descarga manualmente el archivo `llama-3-2-3b-q4.gguf` desde Hugging Face.
-Guárdalo en la carpeta `models` que se incluye en este proyecto. El servidor
-buscará el modelo en `models/llama-3-2-3b-q4.gguf` al iniciar.
+Descarga manualmente el archivo `Llama-3.2-3B-Instruct-Q4_K_M.gguf` desde
+[Hugging Face](https://huggingface.co/).  Una vez descargado, colócalo en la
+carpeta `models` incluida en este proyecto.  El servidor buscará el modelo en
+`models/Llama-3.2-3B-Instruct-Q4_K_M.gguf` al iniciar.
 
 6. **Probar el endpoint de IA**
 

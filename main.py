@@ -13,8 +13,8 @@ llm = None
 async def load_model():
     """Carga el modelo LLaMA al iniciar la aplicación."""
     global llm
-    # Ruta fija al modelo cuantizado LLaMA-3.2-3b
-    llm = Llama(model_path="models/llama-3-2-3b-q4.gguf")
+    # Ruta fija al modelo cuantizado LLaMA-3.2-3B Instruct
+    llm = Llama(model_path="models/Llama-3.2-3B-Instruct-Q4_K_M.gguf")
 
 @app.route('/')
 async def read_root(request):
