@@ -1,3 +1,6 @@
+"use client";
+import React from 'react';
+
 export default function AskSection({ question, onQuestionChange, onSend, answer }) {
   return (
     <section>
