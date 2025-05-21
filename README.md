@@ -78,3 +78,21 @@ La respuesta contendrá una lista `memoria` con los textos guardados.
 ```bash
 pytest
 ```
+
+9. **Ejecutar la interfaz visual**
+
+La interfaz React basada en Next.js se encuentra en `frontend` y utiliza CopilotKit para facilitar la interacción.
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Esto abrirá la web en [http://localhost:3000](http://localhost:3000). Desde ella podrás consultar el endpoint `/ia` y gestionar la memoria con `/memoria/guardar` y `/memoria/recuperar`.
+
+Para ejecutar las pruebas de la interfaz:
+
+```bash
+npm test
+```
