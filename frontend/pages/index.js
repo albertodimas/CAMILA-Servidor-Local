@@ -1,5 +1,8 @@
-import { useState } from 'react';
+"use client";
+import React, { useState } from 'react';
 import { CopilotProvider } from '@copilotkit/react-core';
+// Importamos los componentes de manera explícita con la extensión
+// para evitar resolver rutas incorrectas en ciertos entornos de build.
 import Layout from '../components/Layout';
 import AskSection from '../components/AskSection';
 import MemorySection from '../components/MemorySection';
