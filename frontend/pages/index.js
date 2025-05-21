@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { CopilotProvider } from '@copilotkit/react-core';
 import Layout from '../components/Layout';
 import AskSection from '../components/AskSection';

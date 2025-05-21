@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function MemorySection({ memory, onMemoryChange, onSave, onRetrieve, data }) {
   return (
     <section>
