@@ -35,7 +35,8 @@ async def ia(request):
     _ = eter_network.forward(features)
 
     # Decisión adaptativa mediante la capa FinRL
-    state = int(features.sum()) % finrl_agent.q_table.shape[0]
+    import numpy as np
+    state = int(np.array(features).sum()) % len(finrl_agent.q_table)
     accion = finrl_agent.select_action(state)
 
     if accion == 0:
