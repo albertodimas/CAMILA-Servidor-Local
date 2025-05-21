@@ -17,7 +17,7 @@ class FinRLRLAgent:
         if random.random() < self.epsilon:
             return random.randrange(len(self.q_table[state]))
         q_values = self.q_table[state]
-        return q_values.index(max(q_values))
+        return int(np.argmax(q_values))
 
     def update(self, state: int, action: int, reward: float, next_state: int) -> None:
         """Single-step Q-learning update."""
