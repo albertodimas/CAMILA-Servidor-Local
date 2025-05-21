@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from starlette.applications import Starlette
 from starlette.responses import PlainTextResponse, JSONResponse
+from starlette.routing import Route
 from llama_cpp import Llama
 import uvicorn
 from .memoria import guardar_info, recuperar_info
@@ -17,14 +18,10 @@ async def lifespan(app: Starlette):
     yield
 
 
-app = Starlette(lifespan=lifespan)
-
-@app.get('/')
-async def read_root(request):
+async def home(request):
     return PlainTextResponse('CAMILA Servidor Local Activo ✅')
 
 
-@app.post('/ia')
 async def ia(request):
     data = await request.json()
     pregunta = data.get('pregunta')
@@ -34,8 +31,6 @@ async def ia(request):
     respuesta = result['choices'][0]['text'].strip()
     return JSONResponse({'respuesta': respuesta})
 
-
-@app.post('/memoria/guardar')
 async def memoria_guardar(request):
     data = await request.json()
     contenido = data.get('contenido')
@@ -44,12 +39,20 @@ async def memoria_guardar(request):
     guardar_info(contenido)
     return JSONResponse({'status': 'guardado'})
 
-
-@app.get('/memoria/recuperar')
 async def memoria_recuperar(request):
     docs = recuperar_info()
     textos = [doc.page_content for doc in docs]
     return JSONResponse({'memoria': textos})
+
+
+routes = [
+    Route('/', home, methods=["GET"]),
+    Route('/ia', ia, methods=["POST"]),
+    Route('/memoria/guardar', memoria_guardar, methods=["POST"]),
+    Route('/memoria/recuperar', memoria_recuperar, methods=["GET"]),
+]
+
+app = Starlette(routes=routes, lifespan=lifespan)
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
