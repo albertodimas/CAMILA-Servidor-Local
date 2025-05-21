@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { CopilotProvider } from '@copilotkit/react-core';
-import Layout from '../components/Layout';
-import AskSection from '../components/AskSection';
-import MemorySection from '../components/MemorySection';
+// Importamos los componentes de manera explícita con la extensión
+// para evitar resolver rutas incorrectas en ciertos entornos de build.
+import Layout from '../components/Layout.js';
+import AskSection from '../components/AskSection.js';
+import MemorySection from '../components/MemorySection.js';
 
 export default function Home() {
   const [question, setQuestion] = useState('');
