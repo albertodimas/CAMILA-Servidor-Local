@@ -5,6 +5,8 @@ from starlette.routing import Route
 from llama_cpp import Llama
 import uvicorn
 from .memoria import guardar_info, recuperar_info
+# Componentes inteligentes: red ETER y agente FinRL
+from .ia import eter_network, finrl_agent
 
 llm = None
 
@@ -27,8 +29,21 @@ async def ia(request):
     pregunta = data.get('pregunta')
     if not pregunta:
         return JSONResponse({'error': 'pregunta no proporcionada'}, status_code=400)
-    result = llm.create_completion(prompt=pregunta, max_tokens=128)
-    respuesta = result['choices'][0]['text'].strip()
+    # Procesamiento de la pregunta con la red ETER
+    # Se genera un vector de características para la capa de RL
+    features = eter_network.encode(pregunta)
+    _ = eter_network.forward(features)
+
+    # Decisión adaptativa mediante la capa FinRL
+    state = int(features.sum()) % finrl_agent.q_table.shape[0]
+    accion = finrl_agent.select_action(state)
+
+    if accion == 0:
+        result = llm.create_completion(prompt=pregunta, max_tokens=128)
+        respuesta = result['choices'][0]['text'].strip()
+    else:
+        respuesta = "Respuesta adaptativa"
+
     return JSONResponse({'respuesta': respuesta})
 
 async def memoria_guardar(request):
