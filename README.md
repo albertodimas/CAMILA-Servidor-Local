@@ -37,12 +37,9 @@ CAMILA Servidor Local Activo ✅
 
 5. **Descargar el modelo LLaMA-3.2-3b cuantizado**
 
-Descarga el modelo `gguf` de LLaMA y ubícalo en la carpeta `models/`. Define la
-variable de entorno `LLAMA_MODEL_PATH` con la ruta al archivo, por ejemplo:
-
-```bash
-export LLAMA_MODEL_PATH=./models/llama-3.2-3b-q4.gguf
-```
+Descarga manualmente el archivo `llama-3-2-3b-q4.gguf` desde Hugging Face.
+Guárdalo en la carpeta `models` que se incluye en este proyecto. El servidor
+buscará el modelo en `models/llama-3-2-3b-q4.gguf` al iniciar.
 
 6. **Probar el endpoint de IA**
 
