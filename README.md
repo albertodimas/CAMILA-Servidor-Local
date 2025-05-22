@@ -128,3 +128,8 @@ Y ejecutar las pruebas automáticas con:
 npm test
 ```
 
+
+### Estrategia de estabilidad del frontend
+
+Se utilizan extensiones de archivo `.js` en las importaciones para evitar que algunas herramientas de build resuelvan rutas incorrectas. Además, las dependencias en `package.json` se fijan a versiones específicas de Next.js y React para impedir cambios incompatibles al ejecutar `npm install`. Antes de aplicar nuevos cambios se sincroniza la rama con `main` para reducir conflictos de fusión.
+
